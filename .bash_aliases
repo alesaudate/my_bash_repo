@@ -186,5 +186,4 @@ prep-release() {
    it && sonar
 }
 
-alias save="$WORK_DIR/my_bash_repo/save.bash"
 
