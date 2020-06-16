@@ -1,5 +1,6 @@
 #!/bin/bash
 
+QRCODE_DIR=$WORK_DIR/qrcode-service
 
 #############
 ### UTILS ###
@@ -46,8 +47,8 @@ gradle() {
    if [[ ! -f $COMMAND ]]
    then
 
-      WORKING_DIR="$WORK_DIR"
-      COMMAND="$WORK_DIR/gradlew"
+      WORKING_DIR="$QRCODE_DIR"
+      COMMAND="$QRCODE_DIR/gradlew"
    fi
       	
    start_time="$(date -u +%s)"
@@ -139,16 +140,26 @@ jenkins() {
 	URL=${URL%/console}
 	URL=$URL/api/json
 	
-	RESULT=$(curl --user $JENKINS_AUTH -s $URL | jq '.building')
-	while [ $RESULT = 'true' ];
+	__jenkins $JENKINS_AUTH  $URL
+	if [ -z $VAR_JENKINS_RESULT ]; then
+		URL=$(curl --user $JENKINS_AUTH -s $URL | jq -r '.lastBuild.url')
+		URL="$URL/api/json"
+		__jenkins $JENKINS_AUTH $URL
+	fi
+
+	while [ $VAR_JENKINS_RESULT = 'true' ];
 	do
 		sleep 15
-		RESULT=$(curl --user $JENKINS_AUTH -s $URL | jq '.building')
-		if [ $RESULT = "" ]; then
-			RESULT=$(curl --user $JENKINS_AUTH -s $URL | jq '.building')
+		__jenkins $JENKINS_AUTH  $URL
+		if [ $VAR_JENKINS_RESULT = "" ]; then
+			__jenkins $JENKINS_AUTH  $URL
 		fi
 	done
 	notify-send "Build do Jenkins finalizou"
+}
+
+__jenkins() {
+	VAR_JENKINS_RESULT=$(curl --user $1 -s $2 | jq -r '.building')
 }
 
 
@@ -159,8 +170,8 @@ jenkins() {
 
 alias qr="cd ~/workspace/qrcode-service"
 alias qrtest="cd ~/workspace/qrcode-service-test"
-alias it="gradle clean format integrationTest || browser $WORK_DIR/build/reports/tests/integrationTest/index.html"
-alias itnotest="gradle -x test integrationTest || browser $WORK_DIR/reports/tests/integrationTest/index.html"
+alias it="gradle clean format integrationTest || browser $QRCODE_DIR/build/reports/tests/integrationTest/index.html"
+alias itnotest="gradle -x test integrationTest || browser $QRCODE_DIR/reports/tests/integrationTest/index.html"
 
 sonar() {
   BRANCH=$(current-branch)
@@ -174,4 +185,6 @@ sonar() {
 prep-release() {
    it && sonar
 }
+
+alias save="$WORK_DIR/my_bash_repo/save.bash"
 
