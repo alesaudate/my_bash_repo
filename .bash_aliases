@@ -93,7 +93,9 @@ alias dev="git checkout dev; pull"
 alias sandbox="git checkout sandbox; pull"
 alias master="git checkout master; pull"
 alias add="git add -A . ; status"
+alias amend="git commit --amend --no-edit"
 alias checkout="git checkout ."
+alias patch="add && amend"
 
 
 store() {
@@ -171,12 +173,11 @@ __jenkins() {
 alias qr="cd ~/workspace/qrcode-service"
 alias qrtest="cd ~/workspace/qrcode-service-test"
 alias it="gradle clean format integrationTest || browser $QRCODE_DIR/build/reports/tests/integrationTest/index.html"
-alias itnotest="gradle -x test integrationTest || browser $QRCODE_DIR/reports/tests/integrationTest/index.html"
+alias itnotest="gradle -x test integrationTest || browser $QRCODE_DIR/build/reports/tests/integrationTest/index.html"
 
 sonar() {
   BRANCH=$(current-branch)
   BRANCH=$(uriencode $BRANCH)
-  echo $BRANCH
   URL="$SONAR_URL/dashboard?branch=$BRANCH&id=qrcode-service"
    
   gradle format sonarqube && browser "$URL"
