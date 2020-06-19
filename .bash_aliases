@@ -16,6 +16,7 @@ alias kk="ll"
 alias shortcuts="google-chrome https://www.google.com/search?q=terminator+shortcuts&oq=terminator+shortcuts&aqs=chrome..69i57j0l5.3969j0j7&sourceid=chrome&ie=UTF-8"
 alias fix="fuck"
 
+
 browser() {
   nohup google-chrome $@ >/dev/null 2>&1 &
 }
