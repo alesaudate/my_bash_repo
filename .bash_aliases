@@ -70,6 +70,25 @@ dup() {
 	docker-compose -f "$FILE" up
 }
 
+rup() {
+	local FILE=$(pwd)/docker/docker-compose.yml
+        docker network prune -f
+	docker-compose -f "$FILE" rm -f
+}
+
+root() {
+	local FILE_TO_LOOK_FOR=build.gradle
+	local WORKING_DIR=$(pwd)
+
+
+	while [ ! -f $FILE_TO_LOOK_FOR ]; do
+	   cd ..
+	   WORKING_DIR=$(pwd)
+
+	done
+
+}
+
 function uriencode() { 
 	jq -nr --arg v "$1" '$v|@uri'; 
 }
@@ -114,6 +133,7 @@ git-clone(){
    tgt=$(command git clone "$@" 2> >(tee /dev/stderr |head -n1 | cut -d \' -f2)) ||
       return $?
    cd "$tgt" || exit
+   store
 }
 
 cm(){
@@ -172,6 +192,7 @@ __jenkins() {
 
 
 alias qr="cd ~/workspace/qrcode-service"
+alias pixp="cd ~/workspace/pix-payment-service"
 alias qrtest="cd ~/workspace/qrcode-service-test"
 alias it="gradle clean format integrationTest || browser $QRCODE_DIR/build/reports/tests/integrationTest/index.html"
 alias itnotest="gradle -x test integrationTest || browser $QRCODE_DIR/build/reports/tests/integrationTest/index.html"
@@ -187,5 +208,4 @@ sonar() {
 prep-release() {
    it && sonar
 }
-
 

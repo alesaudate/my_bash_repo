@@ -1,0 +1,31 @@
+#!/bin/bash
+
+FILE_TO_LOOK_FOR=build.gradle
+WORKING_DIR=$(pwd)
+INITIAL_DIR=$(pwd)
+PARAMS=$@
+
+shopt -s expand_aliases
+source ~/.bash_aliases
+
+while [ ! -f $FILE_TO_LOOK_FOR ]; do
+#   echo "There's no $FILE_TO_LOOK_FOR on folder $WORKING_DIR"
+   cd ..
+   WORKING_DIR=$(pwd)
+
+done
+
+#echo "Found this file on folder $WORKING_DIR"
+
+
+gradle clean build
+if [ $? -eq 0 ]; then
+   gradle sonarqube
+   if [ $? -eq 0 ]; then
+	   add
+	   cm "$@"
+	   push
+   fi
+fi
+
+cd $INITIAL_DIR
