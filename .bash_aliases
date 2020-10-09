@@ -1,12 +1,11 @@
 #!/bin/bash
 
-QRCODE_DIR=$WORK_DIR/qrcode-service
 
 #############
 ### UTILS ###
 #############
 
-alias please="sudo"
+
 alias copy="xclip -selection clipboard"
 alias paste="xclip -selection clipboard -o"
 alias xmlf="paste | xmllint --format - | copy"
@@ -14,7 +13,7 @@ alias jsonf="paste | jq '.' | copy"
 alias dc="cd .."
 alias kk="ll"
 alias shortcuts="google-chrome https://www.google.com/search?q=terminator+shortcuts&oq=terminator+shortcuts&aqs=chrome..69i57j0l5.3969j0j7&sourceid=chrome&ie=UTF-8"
-alias fix="fuck"
+alias fix="fuck"  # Polite version of https://github.com/nvbn/thefuck
 
 
 browser() {
@@ -41,41 +40,6 @@ replace(){
    find . -name "$FILE_PATTERN" | xargs sed -i "s/$TO_FIND/$TO_REPLACE/g"
 }
 
-gradle() {
-
-   WORKING_DIR=$(pwd)
-   COMMAND="$(pwd)/gradlew"
-   if [[ ! -f $COMMAND ]]
-   then
-
-      WORKING_DIR="$QRCODE_DIR"
-      COMMAND="$QRCODE_DIR/gradlew"
-   fi
-      	
-   start_time="$(date -u +%s)"
-   { BUILD_RESULT=$(command $COMMAND -p $WORKING_DIR "$@" | tee >(grep 'BUILD SUCCESSFUL') >&3); } 3>&1
-   end_time="$(date -u +%s)"
-   elapsed="$(($end_time-$start_time))"
-   notify-send "Gradle finalizou execução em $elapsed segundos"
-   if [[ -n "$BUILD_RESULT" ]]
-   then
-	   return 0;
-   else
-	   return 1;
-   fi
-}
-
-dup() {
-	FILE=$(pwd)/docker/docker-compose.yml
-	docker-compose -f "$FILE" up
-}
-
-rup() {
-	local FILE=$(pwd)/docker/docker-compose.yml
-        docker network prune -f
-	docker-compose -f "$FILE" rm -f
-}
-
 root() {
 	local FILE_TO_LOOK_FOR=build.gradle
 	local WORKING_DIR=$(pwd)
@@ -89,15 +53,108 @@ root() {
 
 }
 
+
+
 function uriencode() { 
 	jq -nr --arg v "$1" '$v|@uri'; 
 }
+
+postman(){
+	nohup postman >/dev/null 2>&1 &
+}
+
+
+##############
+### GRADLE ###
+##############
+
+gradle() {
+
+   local INITIAL_DIR=$(pwd)
+   root
+   local WORKING_DIR=$(pwd)
+   
+   local COMMAND="$(pwd)/gradlew"
+   local start_time="$(date -u +%s)"
+   { BUILD_RESULT=$(command $COMMAND -p $WORKING_DIR "$@" | tee >(grep 'BUILD SUCCESSFUL') >&3); } 3>&1
+   local end_time="$(date -u +%s)"
+   local elapsed="$(($end_time-$start_time))"
+   if [[ -n "$BUILD_RESULT" ]]
+   then
+	   notify-send -i face-smile-big "BUILD SUCCESFUL: Gradle finalizou em $elapsed segundos"
+	   cd $INITIAL_DIR
+	   return 0;
+   else
+	   notify-send -i face-worried "BUILD FAILURE: Gradle finalizou em $elapsed segundos"
+           cd $INITIAL_DIR
+	   return 1;
+   fi
+}
+
+sonar() {
+  PROJECT_NAME=$(bash -c "source ~/.bash_aliases; root; pwd | xargs basename;")
+  BRANCH=$(current-branch)
+  BRANCH=$(uriencode $BRANCH)
+  URL="$SONAR_URL/dashboard?branch=$BRANCH&id=$PROJECT_NAME"
+   
+  gradle sonarqube && browser "$URL"
+}
+
+prep-release() {
+   it && sonar
+}
+
+
+################
+### COMMANDS ###
+################
+
+dup() {
+	FILE=$(pwd)/docker/docker-compose.yml
+	docker-compose -f "$FILE" up
+}
+
+rup() {
+	local FILE=$(pwd)/docker/docker-compose.yml
+        docker network prune -f
+	docker-compose -f "$FILE" rm -f
+}
+
+jenkins() {
+	URL=$1
+	URL=${URL%/console}
+	URL=$URL/api/json
+	
+	__jenkins $JENKINS_AUTH  $URL
+	if [ -z $VAR_JENKINS_RESULT ]; then
+		URL=$(curl --user $JENKINS_AUTH -s $URL | jq -r '.lastBuild.url')
+		URL="$URL/api/json"
+		__jenkins $JENKINS_AUTH $URL
+	fi
+
+	while [ $VAR_JENKINS_RESULT = 'true' ];
+	do
+		sleep 15
+		__jenkins $JENKINS_AUTH  $URL
+		if [ $VAR_JENKINS_RESULT = "" ]; then
+			__jenkins $JENKINS_AUTH  $URL
+		fi
+	done
+	notify-send "Build do Jenkins finalizou"
+}
+
+__jenkins() {
+	VAR_JENKINS_RESULT=$(curl --user $1 -s $2 | jq -r '.building')
+}
+
+
 
 ###########
 # INUTILS #
 ###########
 
 alias ll="fortune brasil | cowsay -f vader && ls -la --color=auto"
+alias please="sudo"
 
 ###########
 ### GIT ###
@@ -155,57 +212,5 @@ nbp() {
 
 rbp() {
   git checkout -b release/PAAC-"$1"
-}
-
-
-jenkins() {
-	URL=$1
-	URL=${URL%/console}
-	URL=$URL/api/json
-	
-	__jenkins $JENKINS_AUTH  $URL
-	if [ -z $VAR_JENKINS_RESULT ]; then
-		URL=$(curl --user $JENKINS_AUTH -s $URL | jq -r '.lastBuild.url')
-		URL="$URL/api/json"
-		__jenkins $JENKINS_AUTH $URL
-	fi
-
-	while [ $VAR_JENKINS_RESULT = 'true' ];
-	do
-		sleep 15
-		__jenkins $JENKINS_AUTH  $URL
-		if [ $VAR_JENKINS_RESULT = "" ]; then
-			__jenkins $JENKINS_AUTH  $URL
-		fi
-	done
-	notify-send "Build do Jenkins finalizou"
-}
-
-__jenkins() {
-	VAR_JENKINS_RESULT=$(curl --user $1 -s $2 | jq -r '.building')
-}
-
-
-################
-### ATALHOS ####
-################
-
-
-alias qr="cd ~/workspace/qrcode-service"
-alias pixp="cd ~/workspace/pix-payment-service"
-alias qrtest="cd ~/workspace/qrcode-service-test"
-alias it="gradle clean format integrationTest || browser $QRCODE_DIR/build/reports/tests/integrationTest/index.html"
-alias itnotest="gradle -x test integrationTest || browser $QRCODE_DIR/build/reports/tests/integrationTest/index.html"
-
-sonar() {
-  BRANCH=$(current-branch)
-  BRANCH=$(uriencode $BRANCH)
-  URL="$SONAR_URL/dashboard?branch=$BRANCH&id=qrcode-service"
-   
-  gradle format sonarqube && browser "$URL"
-}
-
-prep-release() {
-   it && sonar
 }
 
