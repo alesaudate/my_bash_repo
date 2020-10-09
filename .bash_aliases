@@ -63,6 +63,13 @@ postman(){
 	nohup postman >/dev/null 2>&1 &
 }
 
+ssh(){
+	local workdir=$(pwd)
+	cd ~/chaves
+	command ssh $@
+	cd $workdir
+}
+
 
 ##############
 ### GRADLE ###
