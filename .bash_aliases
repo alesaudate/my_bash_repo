@@ -172,7 +172,18 @@ alias current-branch="git branch | grep \* | cut -d ' ' -f2"
 alias pull="current-branch | xargs git pull origin"
 alias push="current-branch | xargs git push origin"
 alias fpush="current-branch | xargs git push origin -f"
-alias files-affected="git diff-tree --no-commit-id --name-only -r HEAD"
+
+files-affected() {
+	local currentBranch=$(current-branch)
+	local containsDevBranch=$(git branch -a | grep dev)
+	if [[ -n $containsDevBranch ]]; then
+		git diff --name-only dev..$currentBranch
+	else
+		git diff --name-only master..$currentBranch
+	fi
+}
+
+
 alias dev="git checkout dev; pull"
 alias sandbox="git checkout sandbox; pull"
 alias master="git checkout master; pull"
