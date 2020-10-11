@@ -117,12 +117,13 @@ prep-release() {
 ################
 
 dup() {
-	FILE=$(pwd)/docker/docker-compose.yml
+
+	local FILE=$(find . -type f -name "docker-compose.yml")
 	docker-compose -f "$FILE" up
 }
 
 rup() {
-	local FILE=$(pwd)/docker/docker-compose.yml
+	local FILE=$(find . -type f -name "docker-compose.yml")
         docker network prune -f
 	docker-compose -f "$FILE" rm -f
 }
