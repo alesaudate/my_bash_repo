@@ -98,6 +98,19 @@ gradle() {
    fi
 }
 
+test() {
+
+
+	{ GRADLE_OUT=$(gradle test 2>&1 | tee /dev/fd/3 |  grep 'See the report at'); } 3>&1
+	if [[ -n "$GRADLE_OUT" ]]
+	then
+		GRADLE_OUT=$(echo $GRADLE_OUT | sed 's/.*\ //')
+		browser $GRADLE_OUT
+	fi
+	
+
+}
+
 sonar() {
   PROJECT_NAME=$(bash -c "source ~/.bash_aliases; root; pwd | xargs basename;")
   BRANCH=$(current-branch)
@@ -129,9 +142,9 @@ rup() {
 }
 
 jenkins() {
-	URL=$1
-	URL=${URL%/console}
-	URL=$URL/api/json
+	local URL=$1
+	local URL=${URL%/console}
+	local URL=$URL/api/json
 	
 	__jenkins $JENKINS_AUTH  $URL
 	if [ -z $VAR_JENKINS_RESULT ]; then
