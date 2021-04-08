@@ -1,5 +1,11 @@
 #!/bin/bash
 
+#############
+### TYPOS ###
+#############
+
+alias kk="ll"
+alias car="cat"
 
 #############
 ### UTILS ###
@@ -11,7 +17,6 @@ alias paste="xclip -selection clipboard -o"
 alias xmlf="paste | xmllint --format - | copy"
 alias jsonf="paste | jq '.' | copy"
 alias dc="cd .."
-alias kk="ll"
 alias shortcuts="google-chrome https://www.google.com/search?q=terminator+shortcuts&oq=terminator+shortcuts&aqs=chrome..69i57j0l5.3969j0j7&sourceid=chrome&ie=UTF-8"
 alias fix="fuck"  # Polite version of https://github.com/nvbn/thefuck
 
@@ -98,7 +103,7 @@ gradle() {
    fi
 }
 
-test() {
+testp() {
 
 
 	{ GRADLE_OUT=$(gradle test 2>&1 | tee /dev/fd/3 |  grep 'See the report at'); } 3>&1
@@ -174,7 +179,7 @@ __jenkins() {
 # INUTILS #
 ###########
 
-alias ll="fortune brasil | cowsay -f vader && ls -la --color=auto"
+alias ll="fortune brasil | cowsay && ls -la --color=auto"
 alias please="sudo"
 
 ###########
