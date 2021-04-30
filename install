@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cp .bash_aliases ~
+sudo cp release /usr/bin
