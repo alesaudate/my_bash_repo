@@ -20,6 +20,9 @@ alias dc="cd .."
 alias shortcuts="google-chrome https://www.google.com/search?q=terminator+shortcuts&oq=terminator+shortcuts&aqs=chrome..69i57j0l5.3969j0j7&sourceid=chrome&ie=UTF-8"
 alias fix="fuck"  # Polite version of https://github.com/nvbn/thefuck
 
+cf() {
+  cat $1 | copy && xmlf
+}
 
 browser() {
   nohup google-chrome $@ >/dev/null 2>&1 &
@@ -68,12 +71,12 @@ postman(){
 	nohup postman >/dev/null 2>&1 &
 }
 
-ssh(){
-	local workdir=$(pwd)
-	cd ~/chaves
-	command ssh $@
-	cd $workdir
-}
+#ssh(){
+#	local workdir=$(pwd)
+#	cd ~/chaves
+#	command ssh $@
+#	cd $workdir
+#}
 
 
 ##############
@@ -137,7 +140,8 @@ prep-release() {
 dup() {
 
 	local FILE=$(find . -type f -name "docker-compose.yml")
-	docker-compose -f "$FILE" up
+	docker-compose -f "$FILE" up -d
+	docker-compose -f "$FILE" --tail logs
 }
 
 rup() {
@@ -251,3 +255,4 @@ rbp() {
   git checkout -b release/PAAC-"$1"
 }
 
+export PATH=$PATH:~/workspace/docker-recipes
