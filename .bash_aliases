@@ -274,4 +274,5 @@ rbp() {
   git checkout -b release/PAAC-"$1"
 }
 
-export PATH=$PATH:~/workspace/docker-recipes
+export WORKSPACE=~/workspace
+export PATH=$PATH:$WORKSPACE/docker-recipes

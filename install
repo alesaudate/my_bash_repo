@@ -5,11 +5,20 @@ if [ $EUID -eq 0 ]; then
 	exit 1
 fi
 
-if [ -d ~/workspace/docker-recipes ]; then
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+cp $SCRIPT_DIR/.bash_aliases ~
+sudo cp $SCRIPT_DIR/release /usr/bin
+source ~/.bash_aliases
+
+
+if [ -d "$WORKSPACE/docker-recipes" ]; then
 	echo "It seems this script has been run before. Exiting the installer..."
 	exit 2
 fi
 
+mkdir -p $WORKSPACE
 
 sudo apt update
 
@@ -22,10 +31,6 @@ sudo apt install -y docker-ce
 
 sudo usermod -aG docker ${USER}
 
-cp .bash_aliases ~
-sudo cp release /usr/bin
-source ~/.bash_aliases
 
-mkdir -p ~/workspace
-cd ~/workspace
+cd $WORKSPACE
 git clone git@github.com:alesaudate/docker-recipes.git
