@@ -12,7 +12,11 @@ while [ ! -f $FILE_TO_LOOK_FOR ]; do
 #   echo "There's no $FILE_TO_LOOK_FOR on folder $WORKING_DIR"
    cd ..
    WORKING_DIR=$(pwd)
-
+   if [ $WORKING_DIR=="/" ]; then
+	   echo "Found no $FILE_TO_LOOK_FOR"
+	   cd $INITIAL_DIR
+	   exit 1
+   fi
 done
 
 #echo "Found this file on folder $WORKING_DIR"

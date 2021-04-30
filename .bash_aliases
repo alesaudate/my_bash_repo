@@ -159,6 +159,16 @@ rup() {
 	docker-compose -f "$FILE" rm -f
 }
 
+dstop() {
+	docker stop $(docker ps -aq)
+}
+
+docker-clean() {
+	dstop
+	docker rm $(docker ps -aq)
+	docker network prune -f
+}
+
 jenkins() {
 	local URL=$1
 	local URL=${URL%/console}
