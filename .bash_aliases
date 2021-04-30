@@ -51,11 +51,17 @@ replace(){
 root() {
 	local FILE_TO_LOOK_FOR=build.gradle
 	local WORKING_DIR=$(pwd)
+	local INITIAL_FOLDER=$(pwd)
 
 
 	while [ ! -f $FILE_TO_LOOK_FOR ]; do
 	   cd ..
 	   WORKING_DIR=$(pwd)
+	   if [ $WORKING_DIR="/" ]; then
+		   echo "No $FILE_TO_LOOK_FOR found"
+		   cd $INITIAL_FOLDER
+		   return 1
+	   fi
 
 	done
 
@@ -87,6 +93,9 @@ gradle() {
 
    local INITIAL_DIR=$(pwd)
    root
+   if [ $? -ne 0 ]; then
+	   return $?
+   fi
    local WORKING_DIR=$(pwd)
    
    local COMMAND="$(pwd)/gradlew"
