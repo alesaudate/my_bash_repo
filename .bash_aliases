@@ -50,11 +50,12 @@ replace(){
 
 root() {
 	local FILE_TO_LOOK_FOR=build.gradle
+	local FILE_TO_LOOK_FOR_KTS=$FILE_TO_LOOK_FOR.kts
 	local WORKING_DIR=$(pwd)
 	local INITIAL_FOLDER=$(pwd)
 
 
-	while [ ! -f $FILE_TO_LOOK_FOR ]; do
+	while [ ! -f $FILE_TO_LOOK_FOR ] && [ ! -f $FILE_TO_LOOK_FOR_KTS ]; do
 	   cd ..
 	   WORKING_DIR=$(pwd)
 	   if [ $WORKING_DIR="/" ]; then
