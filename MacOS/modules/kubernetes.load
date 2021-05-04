@@ -8,7 +8,6 @@ CONTAIN_KUBERNETES=$(cat ~/.bash_aliases | grep .kubernetes_aliases)
 
 if [ -z "$CONTAIN_KUBERNETES" ]; then
    script_dir
-   echo $SCRIPT_DIR
    cp $SCRIPT_DIR/kubernetes/.kubernetes_aliases ~
    echo "source ~/.kubernetes_aliases" | tee -a ~/.bash_aliases
 fi

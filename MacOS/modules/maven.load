@@ -1,0 +1,14 @@
+#!/bin/bash
+
+script_dir() {
+    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+}
+
+CONTAIN_MAVEN=$(cat ~/.bash_aliases | grep .maven_aliases)
+
+if [ -z "$CONTAIN_MAVEN" ]; then
+   script_dir
+   cp $SCRIPT_DIR/maven/.maven_aliases ~
+   echo "source ~/.maven_aliases" | tee -a ~/.bash_aliases
+fi
+
