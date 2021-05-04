@@ -7,6 +7,7 @@ fi
 
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+SCRIPT_DIR=$SCRIPT_DIR/Ubuntu
 
 cp $SCRIPT_DIR/.bash_aliases ~
 sudo cp $SCRIPT_DIR/release /usr/bin
