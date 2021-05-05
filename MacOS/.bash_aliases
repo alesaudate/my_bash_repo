@@ -35,6 +35,11 @@ alias ..="cd .."
 alias dc="cd .."
 alias workspace="cd $WORKSPACE"
 
+mkdir() {
+   command mkdir $@
+   cd ${@: -1}
+}
+
 root() {
         local FILE_TO_LOOK_FOR=build.gradle
         local FILE_TO_LOOK_FOR_KTS=$FILE_TO_LOOK_FOR.kts
