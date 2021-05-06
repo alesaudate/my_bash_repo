@@ -5,6 +5,7 @@ script_dir() {
 }
 
 brew install bash
+brew install bash-completion@2
 
 script_dir
 INITIAL_DIR=$SCRIPT_DIR
