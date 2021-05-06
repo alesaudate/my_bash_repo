@@ -4,8 +4,10 @@ script_dir() {
     SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 }
 
+brew install bash
 
 script_dir
+INITIAL_DIR=$SCRIPT_DIR
 cp $SCRIPT_DIR/.bash_aliases ~
 source ~/.bash_aliases
 
@@ -38,7 +40,7 @@ brew install jq
 brew install libxml2
 brew install xclip
 
-script_dir
-find $SCRIPT_DIR/modules -iname "*.load" -exec {} \;
+cd $INITIAL_DIR
+find ./modules -iname "*.load" -exec {} \;
 
 exec bash -l
