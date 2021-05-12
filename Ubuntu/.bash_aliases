@@ -12,28 +12,7 @@ alias car="cat"
 #############
 
 
-alias dc="cd .."
 alias fix="fuck"  # Polite version of https://github.com/nvbn/thefuck
-
-root() {
-	local FILE_TO_LOOK_FOR=build.gradle
-	local FILE_TO_LOOK_FOR_KTS=$FILE_TO_LOOK_FOR.kts
-	local WORKING_DIR=$(pwd)
-	local INITIAL_FOLDER=$(pwd)
-
-
-	while [ ! -f $FILE_TO_LOOK_FOR ] && [ ! -f $FILE_TO_LOOK_FOR_KTS ]; do
-	   cd ..
-	   WORKING_DIR=$(pwd)
-	   if [ $WORKING_DIR="/" ]; then
-		   echo "No $FILE_TO_LOOK_FOR found"
-		   cd $INITIAL_FOLDER
-		   return 1
-	   fi
-
-	done
-
-}
 
 
 postman(){
@@ -108,29 +87,6 @@ prep-release() {
 ################
 ### COMMANDS ###
 ################
-
-dup() {
-
-	local FILE=$(find . -type f -name "docker-compose.yml")
-	docker-compose -f "$FILE" up -d
-	docker-compose -f "$FILE" --tail logs
-}
-
-rup() {
-	local FILE=$(find . -type f -name "docker-compose.yml")
-        docker network prune -f
-	docker-compose -f "$FILE" rm -f
-}
-
-dstop() {
-	docker stop $(docker ps -aq)
-}
-
-docker-clean() {
-	dstop
-	docker rm $(docker ps -aq)
-	docker network prune -f
-}
 
 jenkins() {
 	local URL=$1

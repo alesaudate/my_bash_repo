@@ -22,4 +22,10 @@ if [ ! -d $WORKSPACE/docker-recipes ]; then
 	bash -c "$SCRIPT_DIR/git.load"
 fi
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+cp $SCRIPT_DIR/.docker_aliases ~
+echo "source ~/.docker_aliases" >> ~/.bash_aliases
+
+
 

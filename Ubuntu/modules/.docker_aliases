@@ -1,0 +1,25 @@
+#!/bin/bash
+
+dup() {
+
+	local FILE=$(find . -type f -name "docker-compose.yml")
+	docker-compose -f "$FILE" up -d
+	docker-compose -f "$FILE" --tail logs
+}
+
+rup() {
+	local FILE=$(find . -type f -name "docker-compose.yml")
+        docker network prune -f
+	docker-compose -f "$FILE" rm -f
+}
+
+dstop() {
+	docker stop $(docker ps -aq)
+}
+
+docker-clean() {
+	dstop
+	docker rm $(docker ps -aq)
+	docker network prune -f
+}
+

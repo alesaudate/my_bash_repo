@@ -1,4 +1,6 @@
 #!/bin/bash
 
-echo "alias workspace='cd $WORKSPACE'" >> ~/.bash_aliases
-source ~/.bash_aliases
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+cp $SCRIPT_DIR/.navigation_aliases ~
+echo "source ~/.navigation_aliases" >> ~/.bash_aliases
