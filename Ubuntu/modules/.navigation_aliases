@@ -13,7 +13,6 @@ root() {
 	while [ ! -f $FILE_TO_LOOK_FOR ] && [ ! -f $FILE_TO_LOOK_FOR_KTS ] && [ ! -f $FILE_TO_LOOK_FOR_MAVEN ]; do
 	   cd ..
 	   WORKING_DIR=$(pwd)
-	   echo "Searching $WORKING_DIR"
 	   if [ $WORKING_DIR == "/" ]; then
 		   echo "No $FILE_TO_LOOK_FOR found"
 		   cd $INITIAL_FOLDER
