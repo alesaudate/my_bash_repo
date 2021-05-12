@@ -1,6 +1,11 @@
 #!/bin/bash
 
+###############
+### GENERAL ###
+###############
+
 alias fix="fuck"  # Polite version of https://github.com/nvbn/thefuck
+export WORKSPACE=~/workspace
 
 #############
 ### TYPOS ###
@@ -49,11 +54,3 @@ __jenkins() {
 alias ll="fortune brasil | cowsay && ls -la --color=auto"
 alias please="sudo"
 
-export WORKSPACE=~/workspace
-export PATH=$PATH:$WORKSPACE/docker-recipes
-source ~/.git_aliases
-source ~/.docker_aliases
-source ~/.java_aliases
-source ~/.navigation_aliases
-source ~/.gradle_aliases
-source ~/.utils_aliases
