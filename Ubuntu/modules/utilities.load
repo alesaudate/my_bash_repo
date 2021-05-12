@@ -1,0 +1,6 @@
+#!/bin/bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+cp $SCRIPT_DIR/.utils_aliases ~
+echo "source ~/.utils_aliases" >> ~/.bash_aliases

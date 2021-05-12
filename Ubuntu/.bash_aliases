@@ -12,41 +12,8 @@ alias car="cat"
 #############
 
 
-alias copy="xclip -selection clipboard"
-alias paste="xclip -selection clipboard -o"
-alias xmlf="paste | xmllint --format - | copy"
-alias jsonf="paste | jq '.' | copy"
 alias dc="cd .."
-alias shortcuts="google-chrome https://www.google.com/search?q=terminator+shortcuts&oq=terminator+shortcuts&aqs=chrome..69i57j0l5.3969j0j7&sourceid=chrome&ie=UTF-8"
 alias fix="fuck"  # Polite version of https://github.com/nvbn/thefuck
-
-cf() {
-  cat $1 | copy && xmlf
-}
-
-browser() {
-  nohup google-chrome $@ >/dev/null 2>&1 &
-}
-
-ff() {
-   grep -RiIl "$1" | grep -Ev "target/|.git|.settings|.project|.mvn|.idea|build/" | xargs -I % sh -c "printf '\e[1;34m%\e[0m\n'; grep -C 2 -m1 --color -i '$1' '%'; printf '\n'"
-}
-
-
-replace(){
-
-   if [ $# != 3 ]
-   then
-      echo "usage: replace <file pattern> <string to find> <string to replace with>"
-      return 1
-   fi
-
-   FILE_PATTERN=$1
-   TO_FIND=$2
-   TO_REPLACE=$3
-
-   find . -name "$FILE_PATTERN" | xargs sed -i "s/$TO_FIND/$TO_REPLACE/g"
-}
 
 root() {
 	local FILE_TO_LOOK_FOR=build.gradle
@@ -68,11 +35,6 @@ root() {
 
 }
 
-
-
-function uriencode() { 
-	jq -nr --arg v "$1" '$v|@uri'; 
-}
 
 postman(){
 	nohup postman >/dev/null 2>&1 &
