@@ -51,3 +51,9 @@ alias please="sudo"
 
 export WORKSPACE=~/workspace
 export PATH=$PATH:$WORKSPACE/docker-recipes
+source ~/.git_aliases
+source ~/.docker_aliases
+source ~/.java_aliases
+source ~/.navigation_aliases
+source ~/.gradle_aliases
+source ~/.utils_aliases
