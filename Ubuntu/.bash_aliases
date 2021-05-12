@@ -9,49 +9,6 @@ alias fix="fuck"  # Polite version of https://github.com/nvbn/thefuck
 alias kk="ll"
 alias car="cat"
 
-##############
-### GRADLE ###
-##############
-
-gradle() {
-
-   local INITIAL_DIR=$(pwd)
-   root
-   if [ $? -ne 0 ]; then
-	   return $?
-   fi
-   local WORKING_DIR=$(pwd)
-   
-   local COMMAND="$(pwd)/gradlew"
-   local start_time="$(date -u +%s)"
-   { BUILD_RESULT=$(command $COMMAND -p $WORKING_DIR "$@" | tee >(grep 'BUILD SUCCESSFUL') >&3); } 3>&1
-   local end_time="$(date -u +%s)"
-   local elapsed="$(($end_time-$start_time))"
-   if [[ -n "$BUILD_RESULT" ]]
-   then
-	   notify-send -i face-smile-big "BUILD SUCCESFUL: Gradle finalizou em $elapsed segundos"
-	   cd $INITIAL_DIR
-	   return 0;
-   else
-	   notify-send -i face-worried "BUILD FAILURE: Gradle finalizou em $elapsed segundos"
-           cd $INITIAL_DIR
-	   return 1;
-   fi
-}
-
-testp() {
-
-
-	{ GRADLE_OUT=$(gradle test 2>&1 | tee /dev/fd/3 |  grep 'See the report at'); } 3>&1
-	if [[ -n "$GRADLE_OUT" ]]
-	then
-		GRADLE_OUT=$(echo $GRADLE_OUT | sed 's/.*\ //')
-		browser $GRADLE_OUT
-	fi
-	
-
-}
-
 ################
 ### COMMANDS ###
 ################
