@@ -26,12 +26,13 @@ if [ ! command -v fuck &> /dev/null ]; then
 	sudo pip3 install thefuck
 fi
 
+find $MODULES_DIR -iname "*.load" -exec {} \;
+
 if [ ! -d "$WORKSPACE/docker-recipes" ]; then
 	cd $WORKSPACE
 	git clone git@github.com:alesaudate/docker-recipes.git
 fi
 
-find $MODULES_DIR -iname "*.load" -exec {} \;
 
 source ~/.bash_aliases
 
