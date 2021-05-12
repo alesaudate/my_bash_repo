@@ -9,6 +9,9 @@ INITIAL_DIR=$(pwd)
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 MODULES_DIR=$SCRIPT_DIR/modules
 
+mkdir -p ~/workspace
+cd $INITIAL_DIR
+
 cp $SCRIPT_DIR/.bash_aliases ~
 source ~/.bash_aliases
 
