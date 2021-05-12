@@ -21,8 +21,6 @@ files-affected() {
 }
 
 
-alias dev="git checkout dev; pull"
-alias sandbox="git checkout sandbox; pull"
 alias master="git checkout master; pull"
 alias add="git add -A . ; status"
 alias amend="git commit --amend --no-edit"
