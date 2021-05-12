@@ -11,4 +11,21 @@ fi
 cp $SCRIPT_DIR/.git_aliases ~
 echo "source ~/.git_aliases" >> ~/.bash_aliases
 
+user_name=$(git config --global user.name)
+user_email=$(git config --global user.email)
+
+if [ -z "$user_name" ]; then
+	echo "User name is not configured"
+	echo "Please input what is your name"
+	read user_name
+	git config --global user.name $user_name
+fi
+
+if [ -z "$user_email" ]; then
+	echo "User email is not configured"
+	echo "Please input what is your email"
+	read user_email
+	git config --global user.email $user_email
+fi
+
 
