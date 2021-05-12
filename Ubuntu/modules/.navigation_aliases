@@ -5,11 +5,12 @@ alias dc="cd .."
 root() {
 	local FILE_TO_LOOK_FOR=build.gradle
 	local FILE_TO_LOOK_FOR_KTS=$FILE_TO_LOOK_FOR.kts
+	local FILE_TO_LOOK_FOR_MAVEN=pom.xml
 	local WORKING_DIR=$(pwd)
 	local INITIAL_FOLDER=$(pwd)
 
 
-	while [ ! -f $FILE_TO_LOOK_FOR ] && [ ! -f $FILE_TO_LOOK_FOR_KTS ]; do
+	while [ ! -f $FILE_TO_LOOK_FOR ] && [ ! -f $FILE_TO_LOOK_FOR_KTS ] && [ ! -f $FILE_TO_LOOK_FOR_MAVEN ]; do
 	   cd ..
 	   WORKING_DIR=$(pwd)
 	   echo "Searching $WORKING_DIR"
