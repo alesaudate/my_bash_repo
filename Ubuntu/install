@@ -30,6 +30,6 @@ fi
 
 find $MODULES_DIR -iname "*.load" -exec {} \;
 
-exec bash -l
+source ~/.bash_aliases
 
 cd $INITIAL_DIR
