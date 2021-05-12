@@ -10,7 +10,6 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 MODULES_DIR=$SCRIPT_DIR/modules
 
 cp $SCRIPT_DIR/.bash_aliases ~
-sudo cp $SCRIPT_DIR/release /usr/bin
 source ~/.bash_aliases
 
 mkdir -p $WORKSPACE

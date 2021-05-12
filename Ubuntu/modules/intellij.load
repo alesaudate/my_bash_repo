@@ -1,3 +1,6 @@
 #!/bin/bash
 
-sudo snap install intellij-idea-community --classic
+if ! command -v intellij-idea-community &> /dev/null
+then
+	sudo snap install intellij-idea-community --classic
+fi
