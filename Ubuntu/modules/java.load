@@ -4,6 +4,7 @@ JDK_FOLDER=~/.jdks
 
 EXECUTABLES=$(find $JDK_FOLDER -iname "java")
 
+echo "" > ~/.java_aliases
 
 for _java in $EXECUTABLES
 do
@@ -28,16 +29,21 @@ do
 	sudo update-alternatives --install /usr/bin/java "java" "$_java" 1
 	sudo update-alternatives --install /usr/bin/javac "javac" "$_javac" 1
 
-	echo -e "\n" >> ~/.bash_aliases
-	echo "java$java_version() {" >> ~/.bash_aliases
-	echo "  sudo update-alternatives --set java '$_java'" >> ~/.bash_aliases
-	echo "  sudo update-alternatives --set javac '$_javac'" >> ~/.bash_aliases
-	echo "  local javahome=\$(dirname \$(dirname \$(readlink -f \$(which java))))" >> ~/.bash_aliases
-	echo "  export JAVA_HOME=\$javahome" >> ~/.bash_aliases
-	echo "}" >> ~/.bash_aliases
-	echo -e "\n" >> ~/.bash_aliases
+
+	echo -e "\n" >> ~/.java_aliases
+	echo "java$java_version() {" >> ~/.java_aliases
+	echo "  sudo update-alternatives --set java '$_java'" >> ~/.java_aliases
+	echo "  sudo update-alternatives --set javac '$_javac'" >> ~/.java_aliases
+	echo "  local javahome=\$(dirname \$(dirname \$(readlink -f \$(which java))))" >> ~/.java_aliases
+	echo "  export JAVA_HOME=\$javahome" >> ~/.java_aliases
+	echo "}" >> ~/.java_aliases
+	echo -e "\n" >> ~/.java_aliases
 
 
 	#output=$($executable -version >/dev/null)
 	#echo "Saída: $version"
 done
+
+if [ -f ~/.java_aliases ]; then
+	echo "source ~/.java_aliases" >> ~/.bash_aliases
+fi
