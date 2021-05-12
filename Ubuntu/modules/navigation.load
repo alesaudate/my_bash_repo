@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "alias workspace='cd $WORKSPACE'" >> ~/.bash_aliases
+source ~/.bash_aliases
