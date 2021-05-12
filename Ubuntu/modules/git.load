@@ -2,7 +2,8 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-if [ ! command -v git &> /dev/null ]; then
+if ! command -v git &> /dev/null
+then
 	sudo apt-get update
 	sudo apt install -y git
 fi

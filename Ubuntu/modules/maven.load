@@ -1,0 +1,15 @@
+#!/bin/bash
+
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+if ! command -v mvn &> /dev/null
+then
+	sudo apt-get update
+	sudo apt install -y maven
+fi
+
+cp $SCRIPT_DIR/.maven_aliases ~
+echo "source ~/.maven_aliases" >> ~/.bash_aliases
+
+
