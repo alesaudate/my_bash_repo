@@ -4,7 +4,7 @@ dup() {
 
 	local FILE=$(find . -type f -name "docker-compose.yml")
 	docker-compose -f "$FILE" up -d
-	docker-compose -f "$FILE" --tail logs
+	docker-compose -f "$FILE" logs --follow
 }
 
 rup() {
@@ -14,12 +14,21 @@ rup() {
 }
 
 dstop() {
-	docker stop $(docker ps -aq)
+	local containers=$(docker ps -aq)
+	for _container in $containers
+	do
+		docker stop $_container
+	done
+	
 }
 
 docker-clean() {
 	dstop
-	docker rm $(docker ps -aq)
+	local containers=$(docker ps -aq)
+	for _container in $containers
+	do
+		docker rm $_container
+	done
 	docker network prune -f
 }
 
