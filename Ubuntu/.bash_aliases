@@ -1,31 +1,13 @@
 #!/bin/bash
 
+alias fix="fuck"  # Polite version of https://github.com/nvbn/thefuck
+
 #############
 ### TYPOS ###
 #############
 
 alias kk="ll"
 alias car="cat"
-
-#############
-### UTILS ###
-#############
-
-
-alias fix="fuck"  # Polite version of https://github.com/nvbn/thefuck
-
-
-postman(){
-	nohup postman >/dev/null 2>&1 &
-}
-
-#ssh(){
-#	local workdir=$(pwd)
-#	cd ~/chaves
-#	command ssh $@
-#	cd $workdir
-#}
-
 
 ##############
 ### GRADLE ###
@@ -69,20 +51,6 @@ testp() {
 	
 
 }
-
-sonar() {
-  PROJECT_NAME=$(bash -c "source ~/.bash_aliases; root; pwd | xargs basename;")
-  BRANCH=$(current-branch)
-  BRANCH=$(uriencode $BRANCH)
-  URL="$SONAR_URL/dashboard?branch=$BRANCH&id=$PROJECT_NAME"
-   
-  gradle sonarqube && browser "$URL"
-}
-
-prep-release() {
-   it && sonar
-}
-
 
 ################
 ### COMMANDS ###
