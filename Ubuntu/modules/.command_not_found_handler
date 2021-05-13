@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# From https://stackoverflow.com/a/64285457
+
+PROMPT_COMMAND=current_shell_cd
+CD_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/bash-cd/$$.cd"
+
+current_shell_cd() {
+    if [ -r "$CD_FILE" ]; then
+        local CD_TARGET="$( cat "$CD_FILE" )"
+        [ ! -z "$CD_TARGET" ] && cd "$CD_TARGET" 2>/dev/null
+        rm "$CD_FILE"
+    fi
+}
+
+command_not_found_handle () { 
+    local COMMAND="$1";
+    # List folders which are going to be checked
+    local BASE_FOLDER_LIST=(
+        "$WORKSPACE"
+    )  # If desired, add other folders here, one at a line
+    local FOLDER=$(
+        find "${BASE_FOLDER_LIST[@]}" \
+             -maxdepth 2 -type d \
+             -iname "$COMMAND" -print -quit )
+    if [ ! -z "$FOLDER" -a -d "$FOLDER" ]
+    then
+        mkdir -p "$( dirname "$CD_FILE" )"
+        echo "$FOLDER" > "$CD_FILE"
+    else
+        printf "%s: command not found\n" "$1" 1>&2
+        return 127
+    fi
+}
