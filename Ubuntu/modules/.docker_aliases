@@ -30,5 +30,6 @@ docker-clean() {
 		docker rm $_container
 	done
 	docker network prune -f
+	docker volume prune -f
 }
 
