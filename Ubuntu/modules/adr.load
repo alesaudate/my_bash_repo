@@ -1,0 +1,26 @@
+#!/bin/bash
+
+if ! command -v wget &>/dev/null
+then
+	sudo apt get install -y wget
+fi
+
+
+
+
+if [ ! -d ~/Software/adr-tools-3.0.0 ]; then
+	mkdir -p ~/Software
+	wget -O ~/Software/adr-tools-3.0.0.zip https://github.com/npryce/adr-tools/archive/refs/tags/3.0.0.zip
+	cd ~/Software
+	unzip adr-tools-3.0.0.zip
+	rm adr-tools-3.0.0.zip
+fi
+
+
+CONTAINS_ADR=$(cat ~/.bash_aliases | grep adr-tools)
+
+if [ -z "$CONTAINS_ADR" ]; then
+	echo "export PATH=\$PATH:\$HOME/Software/adr-tools-3.0.0/src" >> ~/.bash_aliases
+fi
+
+
