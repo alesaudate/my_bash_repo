@@ -34,4 +34,5 @@ then
 	sudo apt-add-repository https://cli.github.com/packages
 	sudo apt update
 	sudo apt install gh
+	gh auth login
 fi
