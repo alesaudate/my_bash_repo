@@ -28,4 +28,10 @@ if [ -z "$user_email" ]; then
 	git config --global user.email $user_email
 fi
 
-
+if ! command -v gh &> /dev/null
+then
+	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+	sudo apt-add-repository https://cli.github.com/packages
+	sudo apt update
+	sudo apt install gh
+fi
