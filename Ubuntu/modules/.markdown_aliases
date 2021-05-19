@@ -1,0 +1,12 @@
+#!/bin/bash
+
+render-md() {
+
+	local file=$1
+	local tmpfile=$(mktemp)
+	mv $tmpfile $tmpfile.html
+	md $1 > $tmpfile.html
+	browser $tmpfile.html
+
+
+}
