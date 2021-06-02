@@ -33,3 +33,15 @@ docker-clean() {
 	docker volume prune -f
 }
 
+docker-find-image() {
+
+	local image=$1
+	if [ ! -z $image ]; then
+		docker images | grep $image | awk '{print $1 ":" $2}'
+	else
+		docker images | awk '{print $1 ":" $2}' | grep -v "REPOSITORY:TAG"
+	fi
+
+
+}
+
