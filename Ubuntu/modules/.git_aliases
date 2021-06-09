@@ -23,6 +23,7 @@ files-affected() {
 
 alias master="git checkout master; pull"
 alias main="git checkout main; pull"
+alias develop="git checkout develop; pull"
 alias add="git add -A . ; status"
 alias amend="git commit --amend --no-edit"
 alias checkout="git checkout ."

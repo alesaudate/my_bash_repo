@@ -9,7 +9,11 @@ then
 fi
 
 cp $SCRIPT_DIR/.git_aliases ~
-echo "source ~/.git_aliases" >> ~/.bash_aliases
+
+CONTAINS_GIT=$(cat ~/.bash_aliases | grep git_aliases)
+if [ -z "$CONTAINS_GIT" ]; then
+	echo "source ~/.git_aliases" >> ~/.bash_aliases
+fi
 
 user_name=$(git config --global user.name)
 user_email=$(git config --global user.email)
@@ -36,3 +40,13 @@ then
 	sudo apt install gh
 	gh auth login
 fi
+
+
+if ! command -v kdiff3 &> /dev/null
+then
+	sudo apt-get install -y kdiff3
+fi
+
+git config --global merge.tool kdiff3
+git config --global mergetool.kdiff3.path $(which kdiff3)
+git config --global mergetool.kdiff3.trustExitCode false
