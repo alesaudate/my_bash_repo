@@ -46,6 +46,19 @@ __jenkins() {
 }
 
 
+#######################
+### SYSTEM OVERRIDE ###
+#######################
+
+chown() {
+
+	whoami=$(whoami)
+	sudo chown -R $whoami: $@
+
+
+}
+
+
 
 ###########
 # INUTILS #
