@@ -34,6 +34,15 @@ replace(){
    find . -name "$FILE_PATTERN" | xargs sed -i "s/$TO_FIND/$TO_REPLACE/g"
 }
 
+mkdir() {
+
+	local dir="${!#}"
+	command mkdir $@
+	cd $dir
+
+}
+
+
 function uriencode() { 
 	jq -nr --arg v "$1" '$v|@uri'; 
 }
