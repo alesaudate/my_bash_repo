@@ -14,9 +14,9 @@ files-affected() {
         local currentBranch=$(current-branch)
         local containsDevBranch=$(git branch -a | grep dev)
         if [ -z "$containsDevBranch" ]; then
-                git diff --name-only dev..$currentBranch
+                git diff --name-only origin/develop..$currentBranch
         else
-                git diff --name-only master..$currentBranch
+                git diff --name-only origin/master..$currentBranch
         fi
 }
 
