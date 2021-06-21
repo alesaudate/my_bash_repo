@@ -12,7 +12,7 @@ alias fpush="current-branch | xargs git push origin -f"
 
 files-affected() {
         local currentBranch=$(current-branch)
-        local containsDevBranch=$(git branch -a | grep dev)
+        local containsDevBranch=$(git branch -a | grep develop)
         if [ -z "$containsDevBranch" ]; then
                 git diff --name-only origin/develop..$currentBranch
         else
