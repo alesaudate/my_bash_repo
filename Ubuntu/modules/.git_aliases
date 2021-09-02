@@ -6,6 +6,7 @@
 
 alias status="git status"
 alias current-branch="git branch | grep \* | cut -d ' ' -f2"
+alias diff="git diff ."
 alias pull="current-branch | xargs git pull origin"
 alias push="current-branch | xargs git push origin"
 alias fpush="current-branch | xargs git push origin --force-with-lease"
