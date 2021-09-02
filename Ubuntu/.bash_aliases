@@ -60,6 +60,21 @@ chown() {
 
 
 
+
+
+source ~/.git_aliases
+source ~/.maven_aliases
+source ~/.command_not_found_handler
+export PATH=$PATH:$WORKSPACE/docker-recipes
+source ~/.docker_aliases
+source ~/.java_aliases
+source ~/.navigation_aliases
+export PATH=$PATH:$HOME/Software/adr-tools-3.0.0/src
+source ~/.gradle_aliases
+source ~/.utils_aliases
+
+
+
 ###########
 # INUTILS #
 ###########
@@ -67,3 +82,6 @@ chown() {
 alias ll="fortune brasil | cowsay && ls -la --color=auto"
 alias please="sudo"
 
+dev-life() {
+  browser "https://stackoverflow.com"
+}
