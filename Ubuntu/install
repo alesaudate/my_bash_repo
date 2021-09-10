@@ -30,7 +30,8 @@ find $MODULES_DIR -iname "*.load" -exec {} \;
 
 if [ ! -d "$WORKSPACE/docker-recipes" ]; then
 	cd $WORKSPACE
-	git clone git@github.com:alesaudate/docker-recipes.git
+	gh repo clone alesaudate/docker-recipes
+#	git clone git@github.com:alesaudate/docker-recipes.git
 fi
 
 
