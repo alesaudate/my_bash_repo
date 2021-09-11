@@ -12,6 +12,11 @@ then
 	sudo apt-get install -y jq
 fi
 
+if ! command -v kdeconnect &>/dev/null
+then
+	sudo apt-get install -y kdeconnect
+fi
+
 
 cp $SCRIPT_DIR/.utils_aliases ~
 echo "source ~/.utils_aliases" >> ~/.bash_aliases
