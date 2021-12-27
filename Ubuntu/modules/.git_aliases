@@ -4,6 +4,8 @@
 ### GIT ###
 ###########
 
+MAIN_BRANCH="develop"
+
 alias status="git status"
 alias current-branch="git branch | grep \* | cut -d ' ' -f2"
 alias diff="git diff ."
@@ -59,6 +61,13 @@ git-clone(){
       return $?
    cd "$tgt" || exit
    store
+}
+
+backmerge(){
+   git checkout $MAIN_BRANCH
+   pull
+   git checkout - 
+   git merge origin/$MAIN_BRANCH --commit --no-edit
 }
 
 # Part based on https://thucnc.medium.com/how-to-show-current-git-branch-with-colors-in-bash-prompt-380d05a24745
