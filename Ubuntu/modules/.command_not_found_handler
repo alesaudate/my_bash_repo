@@ -40,6 +40,9 @@ command_not_found_handle () {
 		if [ ${#arr[@]} -gt 1 ]; then
 			echo "Several branches have been found for this search, switching is not possible"
 			return 127
+		elif [ ${#arr[@]} -eq 0 ]; then
+			echo "No branch has been found prefixed by $COMMAND"
+			return 127
 		else		     	
 			git checkout ${arr[0]}
 			return 0
