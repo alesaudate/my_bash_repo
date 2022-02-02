@@ -28,7 +28,25 @@ command_not_found_handle () {
         mkdir -p "$( dirname "$CD_FILE" )"
         echo "$FOLDER" > "$CD_FILE"
     else
-        printf "%s: command not found\n" "$1" 1>&2
-        return 127
+	if [ -z "$BRANCH_PREFIX" ]
+       	then
+        	printf "%s: command not found\n" "$1" 1>&2
+	        return 127
+	elif [[ $COMMAND = $BRANCH_PREFIX* ]]
+       	then
+		printf "Searching for branches beginning with $COMMAND \n"
+		FOUND_BRANCHES=$(git branch -a | grep $COMMAND | grep -v remotes/)
+		arr=(`echo $FOUND_BRANCHES`)
+		if [ ${#arr[@]} -gt 1 ]; then
+			echo "Several branches have been found for this search, switching is not possible"
+			return 127
+		else		     	
+			git checkout ${arr[0]}
+			return 0
+		fi
+        else
+		printf "%s: command not found\n" "$1" 1>&2
+		return 127
+	fi
     fi
 }
