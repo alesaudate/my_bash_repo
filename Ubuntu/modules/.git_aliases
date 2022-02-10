@@ -77,6 +77,13 @@ parse_git_branch() {
 }
 
 
+cleanbranch() {
+   checkout
+   git reset --hard HEAD
+   git clean -f
+}
+
+
 TERMINAL_CONTAINS_GIT=$(echo $PS1 | grep git)
 
 if [ -z "$TERMINAL_CONTAINS_GIT" ]; then
