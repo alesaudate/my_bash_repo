@@ -9,7 +9,13 @@ then
 	sudo apt install -y maven
 fi
 
-cp $SCRIPT_DIR/.maven_aliases ~
-echo "source ~/.maven_aliases" >> ~/.bash_aliases
+CONTAINS_MAVEN=$(cat ~/.bash_aliases | grep maven_aliases)
+
+if [ -z "$CONTAINS_MAVEN" ]; then
+	cp $SCRIPT_DIR/.maven_aliases ~
+	echo "source ~/.maven_aliases" >> ~/.bash_aliases
+fi
+
+
 
 

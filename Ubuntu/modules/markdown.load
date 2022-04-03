@@ -29,9 +29,16 @@ load_md() {
 	rm Markdown_1.0.1.zip
 }
 
-load_md
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-cp $SCRIPT_DIR/.markdown_aliases ~
-echo "source ~/.markdown_aliases" >> ~/.bash_aliases
+
+CONTAINS_MARKDOWN=$(cat ~/.bash_aliases | grep markdown_aliases)
+
+if [ -z "$CONTAINS_MARKDOWN" ]; then
+	load_md
+	cp $SCRIPT_DIR/.markdown_aliases ~
+	echo "source ~/.markdown_aliases" >> ~/.bash_aliases
+fi
+
+

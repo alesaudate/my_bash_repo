@@ -2,5 +2,11 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-cp $SCRIPT_DIR/.gradle_aliases ~
-echo "source ~/.gradle_aliases" >> ~/.bash_aliases
+
+CONTAINS_GRADLE=$(cat ~/.bash_aliases | grep gradle_aliases)
+
+if [ -z "$CONTAINS_GRADLE" ]; then
+	cp $SCRIPT_DIR/.gradle_aliases ~
+	echo "source ~/.gradle_aliases" >> ~/.bash_aliases
+fi
+

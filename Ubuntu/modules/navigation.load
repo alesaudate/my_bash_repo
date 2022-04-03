@@ -2,5 +2,10 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-cp $SCRIPT_DIR/.navigation_aliases ~
-echo "source ~/.navigation_aliases" >> ~/.bash_aliases
+CONTAINS_NAV=$(cat ~/.bash_aliases | grep navigation_aliases)
+
+if [ -z "$CONTAINS_NAV" ]; then
+	cp $SCRIPT_DIR/.navigation_aliases ~
+	echo "source ~/.navigation_aliases" >> ~/.bash_aliases
+fi
+

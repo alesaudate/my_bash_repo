@@ -18,5 +18,10 @@ then
 fi
 
 
-cp $SCRIPT_DIR/.utils_aliases ~
-echo "source ~/.utils_aliases" >> ~/.bash_aliases
+CONTAINS_UTILS=$(cat ~/.bash_aliases | grep utils_aliases)
+
+if [ -z "$CONTAINS_UTILS" ]; then
+	cp $SCRIPT_DIR/.utils_aliases ~
+	echo "source ~/.utils_aliases" >> ~/.bash_aliases
+fi
+
