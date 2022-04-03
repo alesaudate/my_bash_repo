@@ -44,6 +44,12 @@ do
 	#echo "Saída: $version"
 done
 
-if [ -f ~/.java_aliases ]; then
+CONTAINS_JAVA=$(cat ~/.bash_aliases | grep java_aliases)
+
+if [ -z "$CONTAINS_JAVA" ]; then
+
 	echo "source ~/.java_aliases" >> ~/.bash_aliases
+
 fi
+
+
