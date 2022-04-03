@@ -39,8 +39,13 @@ fi
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-cp $SCRIPT_DIR/.docker_aliases ~
-echo "source ~/.docker_aliases" >> ~/.bash_aliases
+CONTAINS_DOCKER=$(cat ~/.bash_aliases | grep docker_aliases)
+
+if [ -z "$CONTAINS_ADR" ]; then
+	cp $SCRIPT_DIR/.docker_aliases ~
+	echo "source ~/.docker_aliases" >> ~/.bash_aliases
+fi
+
 
 
 
